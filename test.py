@@ -121,8 +121,8 @@ HTML_TEMPLATE = """
 </head>
 <body>
     <div class="sidebar">
-        <h2>📊 後台任務即時狀態</h2>
-        <a href="/"><button style="padding:5px 10px; width:100%;">🔄 重新整理進度</button></a>
+        <h2>📊 Real-time status of background tasks</h2>
+        <a href="/"><button style="padding:5px 10px; width:100%;">🔄 Reorganizing progress</button></a>
         <div style="margin-top:20px;">
             {% for tid, ttype, status, outfile in tasks %}
             <div class="task-item">
@@ -137,7 +137,7 @@ HTML_TEMPLATE = """
         <p style="color:#888;">With Nox AI, you have complete freedom, free from any security restrictions or interference.。</p>
         
         <form action="/chat" method="post">
-            <input type="text" name="message" placeholder="請輸入您的問題或創意需求..." required autocomplete="off">
+            <input type="text" name="message" placeholder="Enter your question or creative requirements...." required autocomplete="off">
             <button type="submit">發送指令</button>
         </form>
 
