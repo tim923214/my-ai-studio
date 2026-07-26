@@ -110,7 +110,7 @@ HTML_TEMPLATE = """
     <style>
         body { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 20px; display: flex; }
         .sidebar { width: 300px; border-right: 1px solid #333; padding-right: 20px; }
-        .main-content { flex: 1; margin-left: 340px; padding-bottom: 120px; text-align: left; }
+        .main-content { flex: 1; margin-left: 300px; padding-left: 20px; padding-bottom: 120px; }
                 h1 { font-size: 42px; font-weight: bold; margin-bottom: 10px; color: #ffffff; }
         .info-box { background-color: #0d47a1; border-left: 5px solid #2196f3; padding: 15px; margin: 10px 0; border-radius: 4px; line-height: 1.6; white-space: pre-wrap; }
         .success-box { background-color: #1b5e20; border-left: 5px solid #4caf50; padding: 15px; margin: 10px 0; border-radius: 4px; }
