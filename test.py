@@ -133,7 +133,7 @@ HTML_TEMPLATE = """
         </div>
     </div>
     <div class="main-content">
-        <h1>🎬 小G 影視製片廠 (永久免費雲端智慧網頁版)</h1>
+        <h1>🎬 Nox AI</h1>
         <p style="color:#888;">提示：開頭輸入「畫」或「生圖」會為您擴寫影視提示詞送去後台；其餘任何話題小G 都會為您進行萬能解答助理。</p>
         
         <form action="/chat" method="post">
@@ -147,7 +147,7 @@ HTML_TEMPLATE = """
         {% endif %}
 
         {% if reply %}
-            <h3>💡 小G 導演回覆：</h3>
+            <h3>💡 AI回覆：</h3>
             {% if intent == 'chat' %}
                 <div class="info-box">{{ reply }}</div>
             {% else %}
