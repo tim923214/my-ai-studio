@@ -142,12 +142,12 @@ HTML_TEMPLATE = """
         </form>
 
         {% if user_msg %}
-            <h3>🙋‍♂️ 你的需求：</h3>
+            <h3> You：</h3>
             <p>{{ user_msg }}</p>
         {% endif %}
 
         {% if reply %}
-            <h3>💡 AI回覆：</h3>
+            <h3> AI reply：</h3>
             {% if intent == 'chat' %}
                 <div class="info-box">{{ reply }}</div>
             {% else %}
