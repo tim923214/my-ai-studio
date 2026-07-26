@@ -104,8 +104,8 @@ HTML_TEMPLATE = """
 <head>
     <!-- 🎯 Google 關鍵字埋點：換成你想讓人在 Google 輸入的特定關鍵字 -->
     <title>🎬 Nox AI</title>
-    <meta name="description" content="小G 影視製片廠最終版，24小時全自動運行的智慧多功能 AI 助手與創意工具。">
-    <meta name="keywords" content="小G影視製片廠, 小G導演, 小G AI, 智慧助理">
+    <meta name="description" content="Nox AI 體驗無限制的快感。">
+    <meta name="keywords" content="Nox AI, Nox導演, Nox AI, 智慧助理">
     <meta charset="utf-8">
     <style>
         body { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 20px; display: flex; }
