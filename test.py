@@ -44,7 +44,7 @@ def call_groq_api(system_prompt, user_prompt):
         "Content-Type": "application/json"
     }
     payload = {
-        "model": "llama3-70b-8192",
+        "model": "llama3-8b-8192",
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
