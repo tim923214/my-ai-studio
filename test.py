@@ -103,7 +103,7 @@ HTML_TEMPLATE = """
 <html>
 <head>
     <!-- 🎯 Google 關鍵字埋點：換成你想讓人在 Google 輸入的特定關鍵字 -->
-    <title>🎬 小G 影視製片廠雲端版</title>
+    <title>🎬 Nox AI</title>
     <meta name="description" content="小G 影視製片廠最終版，24小時全自動運行的智慧多功能 AI 助手與創意工具。">
     <meta name="keywords" content="小G影視製片廠, 小G導演, 小G AI, 智慧助理">
     <meta charset="utf-8">
