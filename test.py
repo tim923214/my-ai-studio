@@ -140,7 +140,7 @@ HTML_TEMPLATE = """
         
         <form action="/chat" method="post">
             <input type="text" name="message" placeholder="Enter your question or creative requirements...." required autocomplete="off">
-            <button type="submit">發送指令</button>
+            <button type="submit">send</button>
         </form>
 
         {% if user_msg %}
