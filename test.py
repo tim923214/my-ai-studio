@@ -134,7 +134,7 @@ HTML_TEMPLATE = """
     </div>
     <div class="main-content">
         <h1>🎬 Nox AI</h1>
-        <p style="color:#888;">提示：開頭輸入「畫」或「生圖」會為您擴寫影視提示詞送去後台；其餘任何話題小G 都會為您進行萬能解答助理。</p>
+        <p style="color:#888;">With Nox AI, you have complete freedom, free from any security restrictions or interference.。</p>
         
         <form action="/chat" method="post">
             <input type="text" name="message" placeholder="請輸入您的問題或創意需求..." required autocomplete="off">
