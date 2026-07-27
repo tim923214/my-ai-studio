@@ -38,7 +38,7 @@ def db_fetch_all(query, params=()):
 # ==================== 2. 雲端大腦模組 (Groq 雲端引擎) ====================
 def call_groq_api(system_prompt, user_prompt):
     """透過雲端同步請求直連 Groq 免費大腦，100% 繞過本地硬體限制"""
-    url = "https://groq.com"
+    url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
@@ -54,7 +54,7 @@ def call_groq_api(system_prompt, user_prompt):
     try:
         resp = requests.post(url, json=payload, headers=headers, timeout=10.0)
         if resp.status_code == 200:
-            return resp.json()["choices"]["message"]["content"].strip()
+            return resp.json()["choices"][0]["message"]["content"].strip()
         return f"雲端大腦連線正常，但大腦回傳異常，錯誤代碼: {resp.status_code}"
     except Exception as e:
         return f"雲端連線失敗，請確認網路狀態: {e}"
