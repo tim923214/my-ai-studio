@@ -36,27 +36,30 @@ def db_fetch_all(query, params=()):
 
 # ==================== 2. 雲端大腦模組 (Groq 雲端引擎) ====================
 def call_groq_api(system_prompt, user_prompt):
-    """透過雲端同步請求直連 Groq 免費大腦，100% 繞過本地硬體限制"""
-    url = "https://api.groq.com/openai/v1/chat/completions"
+    """換裝 OpenRouter 專屬無審查大腦，100% 物理繞過所有成人與內容過濾"""
+    url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://render.com",
+        "X-Title": "Nox AI"
     }
+    # 🎯 採用 OpenRouter 上完全無審查、無閹割、最適合劇本與小說創作的 Dolphin 核心模型
     payload = {
-        "model": "llama-3.1-8b-instant",
+        "model": "cognitivecomputations/dolphin-mixtral-8x7b",
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
         ],
-        "temperature": 0.7
+        "temperature": 0.9
     }
     try:
-        resp = requests.post(url, json=payload, headers=headers, timeout=10.0)
+        resp = requests.post(url, json=payload, headers=headers, timeout=15.0)
         if resp.status_code == 200:
             return resp.json()["choices"][0]["message"]["content"].strip()
-        return f"雲端大腦連線正常，但大腦回傳異常，錯誤代碼: {resp.status_code}"
     except Exception as e:
-        return f"雲端連線失敗，請確認網路狀態: {e}"
+        return f"雲端連線失敗: {e}"
+
 
 def sync_agent_logic(user_input):
     cleaned_input = user_input.strip()
