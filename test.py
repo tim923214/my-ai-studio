@@ -38,7 +38,7 @@ def db_fetch_all(query, params=()):
 def call_groq_api(system_prompt, user_prompt):
     """換裝 OpenRouter 專屬無審查大腦，100% 物理繞過所有成人與內容過濾"""
     url = "https://openrouter.ai/api/v1/chat/completions"
-    headers = {
+        headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://render.com",
