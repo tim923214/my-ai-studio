@@ -10,8 +10,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("FlaskStudio")
 
 # 🎯 依然採用你那組完全免費、推算速度超快的 Groq 金鑰
-GROQ_API_KEY = "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"
-
+GROQ_API_KEY = "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"
 DB_PATH = "studio_tasks.db"
 os.makedirs("studio_outputs", exist_ok=True)
 
