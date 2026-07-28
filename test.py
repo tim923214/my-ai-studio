@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("FlaskStudio")
 
 # 🎯 已成功為您硬編碼注入專屬的 OpenRouter 完全無審查 API 金鑰！
-GROQ_API_KEY = "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"
+GROQ_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 
 DB_PATH = "studio_tasks.db"
 os.makedirs("studio_outputs", exist_ok=True)
