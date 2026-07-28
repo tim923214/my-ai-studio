@@ -47,7 +47,7 @@ def call_groq_api(system_prompt, user_prompt):
     }
     # 🎯 採用 OpenRouter 上完全無審查、無閹割、最適合劇本與小說創作的 Dolphin 核心模型
     payload = {
-        "model": "gryphe/mythomax-l2-13b:free",  # OpenRouter 最熱門的免費無限制模型
+        "model": "gryphe/mythomax-l2-13b:free",
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
