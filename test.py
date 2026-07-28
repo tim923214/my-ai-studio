@@ -47,7 +47,7 @@ def call_groq_api(system_prompt, user_prompt):
     }
     # 🎯 採用 OpenRouter 上完全無審查、無閹割、最適合劇本與小說創作的 Dolphin 核心模型
     payload = {
-        "model": "meta-llama/llama-3-8b-instruct:free",
+        "model": "openrouter/free",
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
