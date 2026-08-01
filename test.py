@@ -35,19 +35,16 @@ def db_fetch_all(query, params=()):
         cursor.execute(query, params)
         return cursor.fetchall()
 
-# ==================== 2. 雲端大腦模組 (OpenRouter 雲端無限制引擎) ====================
+# ==================== 2. 雲端大腦模組 (Groq 高速引擎) ====================
 def call_groq_api(system_prompt, user_prompt):
-    """換裝 OpenRouter 專屬無審查大腦，100% 物理繞過所有成人與內容過濾"""
-    url = "https://openrouter.ai/api/v1/chat/completions"
+    """直接對接 Groq 官方 API，免費、極速、穩定"""
+    url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://render.com",
-        "X-Title": "Nox AI"
+        "Content-Type": "application/json"
     }
-    # 🎯 採用 OpenRouter 上完全無審查、無閹割、最適合劇本與小說創作的 Dolphin 核心模型
     payload = {
-       "model": "meta-llama/llama-3.1-8b-instruct:free",
+        "model": "llama-3.3-70b-versatile",
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
