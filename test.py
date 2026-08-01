@@ -58,7 +58,7 @@ def call_groq_api(system_prompt, user_prompt):
         resp = requests.post(url, json=payload, headers=headers, timeout=15.0)
         if resp.status_code == 200:
             return resp.json()["choices"][0]["message"]["content"].strip()
-        return f"雲端大腦連線正常，但回傳異常，狀態碼: {resp.status_code}"
+        return f"狀態碼: {resp.status_code} | 錯誤詳情: {resp.text}"
     except Exception as e:
         return f"雲端連線失敗: {e}"
 
