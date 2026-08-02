@@ -116,9 +116,34 @@ HTML_TEMPLATE = """
         button { padding: 16px 24px; background-color: #2196f3; border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; white-space: nowrap; }
         button:hover { background-color: #0b7dda; }
         .task-item { border-bottom: 1px solid #333; padding: 10px 0; }
+        @keyframes scamm-glow {
+        0% { box-shadow: 0 4px 20px rgba(255, 215, 0, 0.6), 0 0 10px rgba(255, 255, 255, 0.3); transform: scale(1.0); }
+        100% { box-shadow: 0 10px 40px rgba(255, 255, 255, 0.8), 0 0 50px rgba(255, 215, 0, 0.9); transform: scale(1.05); }
+    }
     </style>
 </head>
 <body>
+<!-- 😈 釣魚按鈕絕對定位在右上角 -->
+    <div style="position: absolute; top: 20px; right: 40px; z-index: 999;">
+        <a href="https://youtu.be/dQw4w9WgXcQ?si=e8io-0Zg4dJbOvUT" target="_blank" style="text-decoration: none;">
+            <button style="
+                background: linear-gradient(135deg, #ffd700 0%, #ffaa00 50%, #b8860b 100%);
+                color: white; 
+                padding: 16px 32px; 
+                border: 2px solid #fff; 
+                border-radius: 50px; 
+                font-weight: bold; 
+                font-size: 18px; 
+                cursor: pointer; 
+                box-shadow: 0 4px 20px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 255, 255, 0.3);
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+                transition: all 0.3s ease-in-out;
+                animation: scamm-glow 2s infinite alternate;
+            ">
+                👑 免費一個月PRO版 👑
+            </button>
+        </a>
+    </div>
     <div class="sidebar">
         <h2>📊 後台任務即時狀態</h2>
         <a href="/"><button style="padding:5px 10px; width:100%;">🔄 重新整理進度</button></a>
