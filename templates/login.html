@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* 容器與液態特效 (SVG Gooey filter) */
+        .container {
+            position: relative;
+            width: 380px;
+            padding: 40px;
+            background: rgba(18, 24, 38, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        /* 頂部藍色流體光球區塊 */
+        .goo-wrapper {
+            position: relative;
+            width: 100px;
+            height: 80px;
+            margin: 0 auto 10px auto;
+            filter: url(#goo);
+        }
+
+        .blob {
+            position: absolute;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 50%;
+        }
+
+        .blob-main {
+            width: 60px;
+            height: 60px;
+            top: 10px;
+            left: 20px;
+        }
+
+        .blob-sub {
+            width: 30px;
+            height: 30px;
+            top: 30px;
+            left: 35px;
+            transition: transform 0.3s ease;
+        }
+
+        /* 標題與副標 */
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* 初始狀態：登入按鈕/選單 */
+        .auth-toggle {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .auth-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 表單預設隱藏 (利用 clip-path 做出影片中的隱藏收合特效) */
+        .form-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            text-align: left;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.4s ease, margin-top 0.4s ease;
+            margin-top: 0;
+        }
+
+        /* 當滑鼠移入 container 或是展開時顯示表單 */
+        .container:hover .form-content,
+        .container.active .form-content {
+            max-height: 400px;
+            opacity: 1;
+            margin-top: 20px;
+        }
+
+        .container:hover .auth-toggle,
+        .container.active .auth-toggle {
+            display: none;
+        }
+
+        /* 輸入框樣式 */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .input-group input {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #3b82f6;
+        }
+
+        /* 輔助選項 (記住我 / 忘記密碼) */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .form-options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .form-options a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+        /* 登入按鈕 */
+        .btn-submit {
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #2563eb;
+        }
+
+        /* 分隔線 */
+        .divider {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            position: relative;
+            margin: 5px 0;
+        }
+
+        /* 第三方登入按鈕 */
+        .social-login {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-social {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .btn-social:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .signup-text {
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 10px;
+        }
+
+        .signup-text a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 用於製作液態黏合效果的 SVG Filter -->
+    <svg style="position: absolute; width: 0; height: 0;">
+        <filter id="goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 1 19 -9" result="goo" />
+            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+    </svg>
+
+    <div class="container" id="loginCard">
+        <!-- 頂部液態球 -->
+        <div class="goo-wrapper" id="gooWrapper">
+            <div class="blob blob-main"></div>
+            <div class="blob blob-sub" id="subBlob"></div>
+        </div>
+
+        <h1>Flow</h1>
+        <p>Good to see you. Dive back in.</p>
+
+        <!-- 初始的 Log in 按鈕 -->
+        <button class="auth-toggle" id="toggleBtn">
+            Log in 
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+
+        <!-- 展開後的登入表單 -->
+        <div class="form-content">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" placeholder="name@example.com">
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+
+            <div class="form-options">
+                <label><input type="checkbox"> Remember me</label>
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <button class="btn-submit">Sign in</button>
+
+            <div class="divider">or continue with</div>
+
+            <div class="social-login">
+                <button class="btn-social">Google</button>
+                <button class="btn-social">Apple</button>
+            </div>
+
+            <div class="signup-text">
+                New here? <a href="#">Create account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const card = document.getElementById('loginCard');
+        const subBlob = document.getElementById('subBlob');
+
+        // 讓小圓球隨著滑鼠在卡片上的移動而產生牽引的流體錯覺
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            // 輕微位移副球創造黏著拉伸感
+            subBlob.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            subBlob.style.transform = 'translate(0px, 0px)';
+        });
+    </script>
+</body>
+</html>
