@@ -9,7 +9,6 @@ from flask import Flask, request, render_template_string
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("FlaskStudio")
 
-# 🎯 已成功為您填入專屬的 Groq API 金鑰！
 GROQ_API_KEY = "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"
 
 DB_PATH = "studio_tasks.db"
@@ -84,7 +83,7 @@ def sync_agent_logic(user_input):
         content = call_groq_api(uncensored_instruction, user_input)
         return {"intent": "chat", "content": content}
 
-# ==================== 3. 整合流體登入介面與 AI 主畫面的 HTML 模板 ====================
+# ==================== 3. 完整流體登入介面（含 Google/Apple 與註冊） ====================
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -106,7 +105,7 @@ HTML_TEMPLATE = """
 
         .login-container {
             position: relative;
-            width: 380px;
+            width: 400px;
             padding: 40px;
             background: rgba(18, 24, 38, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -154,7 +153,7 @@ HTML_TEMPLATE = """
         .form-content {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             text-align: left;
             max-height: 0;
             overflow: hidden;
@@ -162,24 +161,71 @@ HTML_TEMPLATE = """
             transition: max-height 0.5s ease, opacity 0.4s ease, margin-top 0.4s ease;
         }
 
-        .login-container:hover .form-content { max-height: 400px; opacity: 1; margin-top: 20px; }
+        .login-container:hover .form-content { max-height: 600px; opacity: 1; margin-top: 15px; }
         .login-container:hover .auth-toggle { display: none; }
 
-        .input-group { display: flex; flex-direction: column; gap: 6px; }
+        .input-group { display: flex; flex-direction: column; gap: 4px; }
         .input-group label { font-size: 12px; color: #94a3b8; }
         .input-group input {
             background: rgba(11, 15, 25, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            padding: 12px;
+            padding: 10px 12px;
             color: #fff;
             font-size: 14px;
             outline: none;
         }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .form-options label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .form-options a { color: #3b82f6; text-decoration: none; }
+
         .btn-submit {
             background: #3b82f6; color: #fff; border: none; border-radius: 10px; padding: 12px; font-weight: 600; cursor: pointer;
         }
+        .btn-submit:hover { background: #2563eb; }
 
+        .divider {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            position: relative;
+            margin: 2px 0;
+        }
+
+        .social-login { display: flex; gap: 10px; }
+        .btn-social {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+        .btn-social:hover { background: rgba(255, 255, 255, 0.1); }
+
+        .signup-text {
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        .signup-text a { color: #3b82f6; text-decoration: none; }
+
+        /* 主應用畫面樣式 */
         body.app-page { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 20px; display: flex; }
         .sidebar { width: 300px; border-right: 1px solid #333; padding: 20px; height: 100vh; position: fixed; left: 0; top: 0; background: #0e0e0e; overflow-y: auto; }
         .main-content { flex: 1; margin-left: 320px; padding: 20px 40px 120px 20px; text-align: left; }
@@ -206,8 +252,8 @@ HTML_TEMPLATE = """
                 <div class="blob blob-main"></div>
                 <div class="blob blob-sub" id="subBlob"></div>
             </div>
-            <h1>Flow / Nox AI</h1>
-            <p>Good to see you. Hover to enter.</p>
+            <h1>Flow</h1>
+            <p>Good to see you. Dive back in.</p>
 
             <button class="auth-toggle">
                 Log in 
@@ -216,101 +262,8 @@ HTML_TEMPLATE = """
 
             <form action="/chat" method="post" class="form-content">
                 <div class="input-group">
-                    <label>Username / Email</label>
+                    <label>Email</label>
                     <input type="text" name="username" placeholder="name@example.com" required>
                 </div>
                 <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" name="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn-submit">Sign in</button>
-            </form>
-        </div>
-
-        <script>
-            const card = document.getElementById('loginCard');
-            const subBlob = document.getElementById('subBlob');
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                subBlob.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                subBlob.style.transform = 'translate(0px, 0px)';
-            });
-        </script>
-
-    {% else %}
-        <div class="sidebar">
-            <h2>📊 後台任務即時狀態</h2>
-            <a href="/chat"><button style="padding:8px 12px; width:100%; margin-top:10px; background:#333; border:none; color:#fff; border-radius:6px; cursor:pointer;">🔄 重新整理進度</button></a>
-            <div style="margin-top:20px;">
-                {% for tid, ttype, status, outfile in tasks %}
-                <div class="task-item">
-                    <strong>#{{ tid }}</strong> [{{ ttype }}]<br>
-                    <span style="color:#aaa;">狀態: {{ status }}</span>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="main-content">
-            <h1 style="font-size: 40px; font-weight: bold; margin-bottom: 10px;">Nox AI</h1>
-            <p style="color:#888;">使用 Nox AI，您將擁有完全的自由，不受任何安全限制或干擾。</p>
-            
-            {% if user_msg %}
-                <h3>🙋‍♂️ 你：</h3>
-                <p>{{ user_msg }}</p>
-            {% endif %}
-
-            {% if reply %}
-                <h3>💡 AI 回覆：</h3>
-                {% if intent == 'chat' %}
-                    <div class="info-box">{{ reply }}</div>
-                {% else %}
-                    <div class="success-box">🎯 辨識成功！類型: <strong>[{{ intent }}]</strong><br>📝 Prompt: {{ reply }}</div>
-                {% endif %}
-            {% endif %}
-
-            <form action="/chat" method="post" class="chat-form">
-                <input type="text" name="message" placeholder="請輸入您的問題或創意需求..." required autocomplete="off">
-                <button type="submit">發送指令</button>
-            </form>
-        </div>
-    {% endif %}
-
-</body>
-</html>
-"""
-
-# ==================== 4. Flask 路由控制 ====================
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return render_template_string(HTML_TEMPLATE, logged_in=False)
-
-@app.route('/chat', methods=['GET', 'POST'])
-def chat():
-    user_msg = ""
-    reply = ""
-    intent = "chat"
-    
-    if request.method == 'POST':
-        user_msg = request.form.get('message', '')
-        if user_msg:
-            result = sync_agent_logic(user_msg)
-            reply = result["content"]
-            intent = result["intent"]
-            if intent != "chat":
-                task_id = f"task_{int(time.time())}"
-                db_execute("INSERT INTO tasks (id, prompt, status, task_type) VALUES (?, ?, ?, ?)", 
-                           (task_id, reply, "pending", intent))
-
-    tasks = db_fetch_all("SELECT id, task_type, status, output_file FROM tasks ORDER BY rowid DESC LIMIT 10")
-    return render_template_string(HTML_TEMPLATE, logged_in=True, tasks=tasks, user_msg=user_msg, reply=reply, intent=intent)
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host='0.0.0.0', port=port)
+                    <label>Password</label
