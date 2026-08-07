@@ -89,7 +89,7 @@ HTML_TEMPLATE = """
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>🎬 Nox AI 雲端版</title>
+    <title>🎬 Flow / Nox AI</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         
@@ -133,14 +133,14 @@ HTML_TEMPLATE = """
         .blob-main { width: 60px; height: 60px; top: 10px; left: 20px; }
         .blob-sub { width: 30px; height: 30px; top: 30px; left: 35px; transition: transform 0.3s ease; }
 
-        .login-container h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
-        .login-container p { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
+        .login-container h1 { font-size: 28px; font-weight: 600; margin-bottom: 4px; }
+        .login-container p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
 
         .auth-toggle {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
-            padding: 12px 24px;
+            padding: 12px 28px;
             border-radius: 30px;
             cursor: pointer;
             font-size: 14px;
@@ -155,4 +155,71 @@ HTML_TEMPLATE = """
             flex-direction: column;
             gap: 14px;
             text-align: left;
-            max-height: 0
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.4s ease, margin-top 0.4s ease;
+        }
+
+        .login-container:hover .form-content { max-height: 600px; opacity: 1; margin-top: 15px; }
+        .login-container:hover .auth-toggle { display: none; }
+
+        .input-group { display: flex; flex-direction: column; gap: 4px; }
+        .input-group label { font-size: 12px; color: #94a3b8; }
+        .input-group input {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px 12px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .form-options label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .form-options a { color: #3b82f6; text-decoration: none; }
+
+        .btn-submit {
+            background: #3b82f6; color: #fff; border: none; border-radius: 10px; padding: 12px; font-weight: 600; cursor: pointer; text-align: center;
+        }
+        .btn-submit:hover { background: #2563eb; }
+
+        .divider {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            position: relative;
+            margin: 4px 0;
+        }
+
+        .social-login { display: flex; gap: 10px; }
+        .btn-social {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+        .btn-social:hover { background: rgba(255, 255, 255, 0.1); }
+
+        .signup-text {
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
